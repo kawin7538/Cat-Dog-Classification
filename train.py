@@ -12,7 +12,7 @@ from keras.layers import Dense, Conv2D, MaxPooling2D, Flatten
 #initial value and directory
 dir_train='data/train/'
 dir_valid='data/validation/'
-img_size=150
+img_size=128
 batch_size=32
 epochs=5
 input_shape=(img_size,img_size,3)
@@ -30,7 +30,7 @@ model.add(MaxPooling2D(pool_size=(2,2)))
 
 model.add(Flatten())
 model.add(Dense(units=128,activation='relu'))
-model.add(Dense(units=1,activation='softmax'))
+model.add(Dense(units=1,activation='sigmoid'))
 
 model.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
 
@@ -41,5 +41,4 @@ valid_datagen=ImageDataGenerator(rescale=1./255)
 train_set=train_datagen.flow_from_directory(dir_train,target_size=(img_size,img_size),batch_size=batch_size,class_mode='binary')
 valid_set=valid_datagen.flow_from_directory(dir_valid,target_size=(img_size,img_size),batch_size=batch_size,class_mode='binary')
 model.fit_generator(train_set,epochs=epochs,verbose=1,validation_data=valid_set)
-model.save_weights("model_softmax.h5")
-model.save("model_softmax.h5")
+model.save("model.h5")
